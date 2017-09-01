@@ -1,6 +1,6 @@
 {
   "name": "qewd-monitor",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "React.js-based Monitor/Management Application for QEWD",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,23 @@
     "url": "git+https://github.com/robtweed/qewd-monitor.git"
   },
   "author": "Rob Tweed, M/Gateway Developments Ltd",
+  "devDependencies": {
+    "react": "",
+    "react-dom": "",
+    "babelify": "",
+    "babel-preset-react": "",
+    "react-bootstrap": "",
+    "react-toastr": "",
+    "react-select": "",
+    "socket.io-client": "",
+    "jquery": "",
+    "ewd-client": "",
+    "ewd-react-tools": "",
+    "qewd-react": "",
+    "ewd-xpress-react": "",
+    "react-json-inspector": "",
+    "moment": ""
+  },
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/robtweed/qewd-monitor/issues"
