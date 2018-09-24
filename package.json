@@ -1,6 +1,6 @@
 {
   "name": "qewd-monitor",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "React.js-based Monitor/Management Application for QEWD",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,9 @@
     "react": "",
     "react-dom": "",
     "babelify": "",
-    "babel-preset-react": "",
+    "@babel/core": "",
+    "@babel/preset-react": "",
+    "@babel/preset-env": "",
     "react-bootstrap": "",
     "react-toastr": "",
     "react-select": "",

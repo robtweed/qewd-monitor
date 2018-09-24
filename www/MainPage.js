@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,13 +24,14 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
 "use strict"
 
 var React = require('react');
+var createReactClass = require('create-react-class');
 var ReactToastr = require('react-toastr');
 var jQuery = require('jquery');
 window.$ = window.jQuery = jQuery;
@@ -46,7 +47,7 @@ var Shutdown = require('./Shutdown');
 var controller;
 var title = 'QEWD Monitor';
 
-var MainPage = React.createClass({
+var MainPage = createReactClass({
 
   getInitialState: function() {
     return {
@@ -55,7 +56,7 @@ var MainPage = React.createClass({
   },
 
   componentWillMount: function() {
-    controller = require('./controller-MainPage')(this.props.controller, this);
+    controller = require('./controller-MainPage').call(this, this.props.controller);
   },
 
   render: function() {
@@ -79,8 +80,7 @@ var MainPage = React.createClass({
         />
 
         <ToastContainer 
-          ref="toastContainer"
-          toastMessageFactory={ToastMessageFactory}
+          ref={ref => this.toastContainer = ref}
           className="toast-top-right"
           newestOnTop={true}
           target="body"

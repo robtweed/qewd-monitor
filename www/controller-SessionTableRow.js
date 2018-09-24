@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,30 +24,32 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.onNewProps = function(newProps) {
+  var self = this;
+
+  this.onNewProps = function(newProps) {
   };
 
-  component.stopSession = function() {
+  this.stopSession = function() {
     var message = {
       type: 'stopSession',
       params: {
-        token: component.props.token
+        token: self.props.token
       }
     };
     controller.send(message);
   };
 
-  component.showSession = function() {
+  this.showSession = function() {
     var message = {
       type: 'showSession',
       params: {
-        token: component.props.token
+        token: self.props.token
       }
     };
     controller.send(message);

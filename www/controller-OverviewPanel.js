@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,23 +24,25 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.onNewProps = function(newProps) {
+  var self = this;
+
+  this.onNewProps = function(newProps) {
     //console.log('OverviewPanel newProps: ' + JSON.stringify(newProps));
   };
 
-  component.expanded = true;
-  component.serverName = 'ewd-xpress';
+  this.expanded = true;
+  this.serverName = 'ewd-xpress';
 
   controller.on('getServerName', function(responseObj) {
     if (responseObj.message.serverName && responseObj.message.serverName !== '') {
-      component.serverName = responseObj.message.serverName;
-      component.setState({
+      self.serverName = responseObj.message.serverName;
+      self.setState({
         status: 'updated'
       });
     }
@@ -49,6 +51,8 @@ module.exports = function (controller, component) {
   controller.send({
     type: 'getServerName'
   });
+
+  this.onToggle = function() {};
 
   return controller;
 };

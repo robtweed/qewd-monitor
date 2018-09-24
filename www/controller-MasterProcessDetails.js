@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,24 +24,26 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.onNewProps = function(newProps) {
+  var self = this;
+
+  this.onNewProps = function(newProps) {
     //console.log('MasterProcessDetails newProps: ' + JSON.stringify(newProps));
   };
 
-  component.stopMasterProcess = function() {
+  this.stopMasterProcess = function() {
     controller.send({type: 'stopMasterProcess'});
   };
 
-  component.pid = '';
-  component.started = '';
-  component.upTime = '';
-  component.master = {
+  this.pid = '';
+  this.started = '';
+  this.upTime = '';
+  this.master = {
     memory: {
       rss: 'Not available',
       heapTotal: 'Not available',
@@ -58,10 +60,10 @@ module.exports = function (controller, component) {
   });
 
   controller.on('getMasterProcessDetails', function(messageObj) {
-    component.pid = messageObj.message.pid;
-    component.started = messageObj.message.startTime;
-    component.upTime = messageObj.message.upTime;
-    component.master.memory = messageObj.message.memory;
+    self.pid = messageObj.message.pid;
+    self.started = messageObj.message.startTime;
+    self.upTime = messageObj.message.upTime;
+    self.master.memory = messageObj.message.memory;
 
     controller.emit('startTimers');
 
@@ -71,7 +73,7 @@ module.exports = function (controller, component) {
       },30000);
     }
 
-    component.setState({
+    self.setState({
       status: 'dataAvailable'
     });
   });

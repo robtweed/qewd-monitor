@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,15 +24,17 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.workers = {};
+  var self = this;
 
-  component.onNewProps = function(newProps) {
+  this.workers = {};
+
+  this.onNewProps = function(newProps) {
     //console.log('WorkerProcessDetailsTable newProps: ' + JSON.stringify(newProps));
   };
 
@@ -40,7 +42,7 @@ module.exports = function (controller, component) {
     controller.send({type: 'getWorkerDetails'});
   });
 
-  component.stopWorker = function(pid) {
+  this.stopWorker = function(pid) {
     controller.send({
       type: 'stopWorkerProcess',
       params: {
@@ -50,7 +52,7 @@ module.exports = function (controller, component) {
     controller.toastr('warning', 'Worker ' + pid + ' shut down');
   };
 
-  component.poolSize = 1;
+  this.poolSize = 1;
 
   controller.on('startTimers', function() {
     if (!controller.timers.poolSize) {
@@ -66,14 +68,14 @@ module.exports = function (controller, component) {
   });
 
   controller.on('getPoolSize', function(messageObj) {
-    component.poolSize = messageObj.message.poolSize;
+    self.poolSize = messageObj.message.poolSize;
     controller.emit('startTimers');
-    component.setState({
+    self.setState({
       status: 'poolSizeAvailable'
     });
   });
 
-  component.setPoolSize = function(poolSize) {
+  this.setPoolSize = function(poolSize) {
     controller.send({
       type: 'setPoolSize',
       params: {
@@ -82,14 +84,14 @@ module.exports = function (controller, component) {
     });
   };
 
-  component.workerDetails = [];
+  this.workerDetails = [];
 
   controller.on('getWorkerDetails', function(messageObj) {
     //console.log('getWorkerDetails: ' + JSON.stringify(messageObj));
-    component.workerDetails = messageObj.results;
+    self.workerDetails = messageObj.results;
     controller.emit('startTimers');
 
-    component.setState({
+    self.setState({
       status: 'dataAvailable'
     });
   });

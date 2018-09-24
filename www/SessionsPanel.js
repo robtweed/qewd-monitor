@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,13 +24,14 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
 "use strict"
 
 var React = require('react');
+var createReactClass = require('create-react-class');
 var ReactBootstrap = require('react-bootstrap');
 var Inspector = require('react-json-inspector');
 var SessionTable = require('./SessionTable');
@@ -47,7 +48,7 @@ var {
   Tooltip
 } = ReactBootstrap;
 
-var SessionsPanel = React.createClass({
+var SessionsPanel = createReactClass({
 
   getInitialState: function() {
     return {
@@ -56,7 +57,7 @@ var SessionsPanel = React.createClass({
   },
 
   componentWillMount: function() {
-    this.controller = require('./controller-SessionsPanel')(this.props.controller, this);
+    this.controller = require('./controller-SessionsPanel').call(this, this.props.controller);
 
     this.tooltip = (
       <Tooltip 
@@ -102,30 +103,38 @@ var SessionsPanel = React.createClass({
    //console.log('rendering SessionsPanel: ' + JSON.stringify(this.sessionData));
 
     return (
-      <Panel 
-        collapsible 
-        expanded={true} 
-        header={this.title}
+      <Panel
         bsStyle="primary"
       >
-        <Grid
-          fluid = {true}
-        >
-          <Row>
-            <Col md={5}>
-              <SessionTable
-                controller = {this.controller}
-                sessions = {this.sessions}
-              />
-            </Col>
-            <Col md={7}>
-              <SessionDetails
-                controller = {this.controller}
-                data = {this.sessionData}
-              />
-            </Col>
-          </Row>
-        </Grid>
+
+        <Panel.Heading>
+          <Panel.Title>
+            {this.title}
+          </Panel.Title>
+        </Panel.Heading>
+
+          <Panel.Body>
+
+            <Grid
+              fluid = {true}
+            >
+              <Row>
+                <Col md={5}>
+                  <SessionTable
+                    controller = {this.controller}
+                    sessions = {this.sessions}
+                  />
+                </Col>
+                <Col md={7}>
+                  <SessionDetails
+                    controller = {this.controller}
+                    data = {this.sessionData}
+                  />
+                </Col>
+              </Row>
+            </Grid>
+          </Panel.Body>
+
       </Panel>
     );
   }

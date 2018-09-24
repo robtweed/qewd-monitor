@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,19 +24,21 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
 module.exports = function (controller, component) {
 
-  component.handleChange = function(e) {
+  var self = this;
+
+  this.handleChange = function(e) {
     // update display of field in input component:
 
-    var fieldName = component.props.fieldname;
+    var fieldName = self.props.fieldname;
     var value = e.target.value;
 
-    component.setState({
+    self.setState({
       value: value
     });
 
@@ -48,8 +50,8 @@ module.exports = function (controller, component) {
     });
   };
 
-  component.validationState = function() {
-    if (component.state.value.length === 0) return 'error';
+  this.validationState = function() {
+    if (self.state.value.length === 0) return 'error';
   };
 
   return controller;

@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,13 +24,14 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
 "use strict"
 
 var React = require('react');
+var createReactClass = require('create-react-class');
 var ReactBootstrap = require('react-bootstrap');
 var {
   Panel,
@@ -43,7 +44,7 @@ var BuildDetails = require('./BuildDetails');
 var MasterProcessDetails = require('./MasterProcessDetails');
 var WorkerProcessDetailsTable = require('./WorkerProcessDetailsTable');
 
-var OverviewPanel = React.createClass({
+var OverviewPanel = createReactClass({
 
   getInitialState: function() {
     return {
@@ -52,16 +53,12 @@ var OverviewPanel = React.createClass({
   },
 
   componentWillMount: function() {
-    this.controller = require('./controller-OverviewPanel')(this.props.controller, this);
-    this.title = (
-      <h1>Overview {this.serverName}</h1>
-    );
+    this.controller = require('./controller-OverviewPanel').call(this, this.props.controller);
+    this.title = 'Overview ' + this.serverName;
   },
 
   componentWillUpdate: function() {
-    this.title = (
-      <h1>Overview {this.serverName}</h1>
-    );
+    this.title = 'Overview ' + this.serverName;
   },
 
   componentWillReceiveProps: function(newProps) {
@@ -74,38 +71,58 @@ var OverviewPanel = React.createClass({
 
     if (this.state.status === 'initial') {
       return (
-        <Panel collapsible expanded={this.expanded} header={this.title} />
+        <Panel
+          expanded={this.expanded}
+          onToggle={this.onToggle}
+        >
+          <Panel.Heading>
+            <Panel.Title>
+              {this.title}
+            </Panel.Title>
+          </Panel.Heading>
+        </Panel>
       );
     }
     else {
       return (
         <Panel
-          collapsible
           expanded={this.expanded}
-          header={this.title}
           bsStyle="primary"
+          onToggle={this.onToggle}
 	 >
-          <Grid
-            fluid = {true}
-          >
-            <Row>
-              <Col md={4}>
-                <BuildDetails
-                  controller = {this.controller}
-                />
-              </Col>
-              <Col md={3}>
-                <MasterProcessDetails
-                  controller = {this.controller}
-                />
-              </Col>
-              <Col md={5}>
-                <WorkerProcessDetailsTable
-                  controller = {this.controller}
-                />
-              </Col>
-            </Row>
-          </Grid>
+
+          <Panel.Heading>
+            <Panel.Title>
+              {this.title}
+            </Panel.Title>
+          </Panel.Heading>
+
+          <Panel.Collapse>
+            <Panel.Body>
+
+              <Grid
+                fluid = {true}
+              >
+                <Row>
+                  <Col md={4}>
+                    <BuildDetails
+                      controller = {this.controller}
+                    />
+                  </Col>
+                  <Col md={3}>
+                    <MasterProcessDetails
+                      controller = {this.controller}
+                    />
+                  </Col>
+                  <Col md={5}>
+                    <WorkerProcessDetailsTable
+                      controller = {this.controller}
+                    />
+                  </Col>
+                </Row>
+              </Grid>
+            </Panel.Body>
+          </Panel.Collapse>
         </Panel>
       );
     }
@@ -113,4 +130,3 @@ var OverviewPanel = React.createClass({
 });
 
 module.exports = OverviewPanel;
-

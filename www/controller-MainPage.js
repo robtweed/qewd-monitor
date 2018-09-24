@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,17 +24,19 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  23 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
+
+  var self = this;
 
   //controller.log = true;
 
   controller.toastr = function(type, text) {
-    if (type && type !== '' && component.refs && component.refs.toastContainer && component.refs.toastContainer[type]) {
-      component.refs.toastContainer[type](text);
+    if (type && type !== '' && self.toastContainer && self.toastContainer[type]) {
+      self.toastContainer[type](text);
     }
   };
 
@@ -55,8 +57,8 @@ module.exports = function (controller, component) {
   controller.on('login', function(messageObj) {
     if (!messageObj.message.error && messageObj.message.ok) {
       // logged in
-      component.showLoginModal = false;
-      component.setState({
+      self.showLoginModal = false;
+      self.setState({
         status: 'loggedIn'
       });
     }
@@ -84,25 +86,25 @@ module.exports = function (controller, component) {
     controller.stopTimers();
     // switch view to logout / shutdown
     controller.disconnectSocket();
-    component.setState({
+    self.setState({
       status: 'shutdown'
     });
   });
 
   controller.on('overview', function() {
-	  component.setState({
+    self.setState({
         status: 'overview'
       });
   });
 
   controller.on('docstore', function() {
-	  component.setState({
+    self.setState({
         status: 'docstore'
       });
   });
 
   controller.on('sessions', function() {
-    component.setState({
+    self.setState({
       status: 'sessions'
     });
   });
@@ -121,7 +123,7 @@ module.exports = function (controller, component) {
 
   controller.timers = {};
 
-  component.showLoginModal = true;
+  this.showLoginModal = true;
 
   return controller;
 };

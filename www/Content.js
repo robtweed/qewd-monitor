@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,19 +24,20 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
 "use strict"
 
 var React = require('react');
+var createReactClass = require('create-react-class');
 
 var OverviewContainer = require('./OverviewContainer');
 var DocumentStoreContainer = require('./DocumentStoreContainer');
 var SessionsContainer = require('./SessionsContainer');
 
-var Content = React.createClass({
+var Content = createReactClass({
 
   getInitialState: function() {
     return {
@@ -45,7 +46,7 @@ var Content = React.createClass({
   },
 
   componentWillMount: function() {
-    this.controller = require('./controller-Content')(this.props.controller, this);
+    this.controller = require('./controller-Content').call(this, this.props.controller);
   },
 
   componentWillReceiveProps: function(newProps) {

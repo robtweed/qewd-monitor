@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,13 +24,14 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
 "use strict"
 
 var React = require('react');
+var createReactClass = require('create-react-class');
 var ReactBootstrap = require('react-bootstrap');
 var {
   Button,
@@ -41,7 +42,7 @@ var {
   Tooltip
 } = ReactBootstrap;
 
-var SessionTableRow = React.createClass({
+var SessionTableRow = createReactClass({
 
   getInitialState: function() {
     return {
@@ -50,7 +51,7 @@ var SessionTableRow = React.createClass({
   },
 
   componentWillMount: function() {
-    this.controller = require('./controller-SessionTableRow')(this.props.controller, this);
+    this.controller = require('./controller-SessionTableRow').call(this, this.props.controller);
     var id = 'Session' + this.props.pid + 'StopBtn';
     this.stopTooltip = (
       <Tooltip

@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,38 +24,40 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.data = {};
-  component.token = '';
-  component.sessionId = '';
+  var self = this;
 
-  component.title = 'Session Data';
+  this.data = {};
+  this.token = '';
+  this.sessionId = '';
 
-  component.onNewProps = function(newProps) {
+  this.title = 'Session Data';
+
+  this.onNewProps = function(newProps) {
     //console.log('controller-SessionDetails newProps: ' + JSON.stringify(newProps));
-    component.data = newProps.data.data || {};
+    self.data = newProps.data.data || {};
     if (newProps.data.id && newProps.data.id !== '') {
-      component.title = 'Session ' + newProps.data.id;
+      self.title = 'Session ' + newProps.data.id;
     }
     else {
       // previously-displayed session no longer exists
-      component.title = 'Session Data';
-      component.data = {};
+      self.title = 'Session Data';
+      self.data = {};
     }
-    if (newProps.data.token) component.token = newProps.data.token;
+    if (newProps.data.token) self.token = newProps.data.token;
   };
 
-  component.expanded = true;
+  this.expanded = true;
 
   var expandText = ' -->';	
-  component.expand = false;
-  component.isExpanded = function(keypath, value) {
-    return component.expand;
+  this.expand = false;
+  this.isExpanded = function(keypath, value) {
+    return self.expand;
   };
 
 
@@ -74,14 +76,14 @@ module.exports = function (controller, component) {
     }
   }
 
-  component.nodeClicked = function(obj) {
+  this.nodeClicked = function(obj) {
     if (obj.value === expandText) {
       var message = {
         type: 'getSessionSubscripts',
         params: {
           path: obj.path,
           expandText: expandText,
-          token: component.token
+          token: self.token
         }
       };
       controller.send(message, function(responseObj) {
@@ -91,9 +93,9 @@ module.exports = function (controller, component) {
           controller.emit('refreshSessionDisplay');
         }
         else {
-          index(component.data, obj.path, responseObj.message.data);
-          component.expand = true;
-          component.setState({status: 'updated'});
+          index(self.data, obj.path, responseObj.message.data);
+          self.expand = true;
+          self.setState({status: 'updated'});
         }
       });
     }

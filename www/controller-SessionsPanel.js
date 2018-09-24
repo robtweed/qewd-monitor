@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,49 +24,54 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.refresh = function() {
+  var self = this;
+
+  this.refresh = function() {
     var message = {
       type: 'getSessions'
     };
     controller.send(message, function(responseObj) {
-      component.sessions = responseObj.message;
-      component.setState({status: 'gotSessions'});
+      self.sessions = responseObj.message;
+      self.setState({status: 'gotSessions'});
     });
   };
 
   controller.on('stopSession', function(responseObj) {
-    component.refresh();
+    self.refresh();
   });
 
   controller.on('refreshSessionDisplay', function() {
-    component.sessionData = {};
-    component.refresh();
+    self.sessionData = {};
+    self.refresh();
   });
 
   controller.on('showSession', function(responseObj) {
 
     if (responseObj.message.error) {
       // the selected session no longer exists, so refresh the session table
-      component.sessionData = {};
-      component.refresh();
+      self.sessionData = {};
+      self.refresh();
     }
     else {
-      component.sessionData = responseObj.message;
-      component.setState({status: 'showSession'});
+      self.sessionData = responseObj.message;
+      self.setState({status: 'showSession'});
     }
   });
 
-  component.onNewProps = function(newProps) {
+  this.onNewProps = function(newProps) {
   };
 
-  component.sessions = [];
-  component.sessionData = {};
+  this.sessions = [];
+  this.sessionData = {};
+
+  this.onToggle = function() {};
+  this.expanded = true;
 
   return controller;
 };

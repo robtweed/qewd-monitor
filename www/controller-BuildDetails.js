@@ -3,8 +3,8 @@
  ------------------------------------------------------------------------------------
  | qewd-monitor: React.js-based Monitor/Management Application for QEWD             |
  |                                                                                  |
- | Copyright (c) 2017 M/Gateway Developments Ltd,                                   |
- | Reigate, Surrey UK.                                                              |
+ | Copyright (c) 2017-18 M/Gateway Developments Ltd,                                |
+ | Redhill, Surrey UK.                                                              |
  | All rights reserved.                                                             |
  |                                                                                  |
  | http://www.mgateway.com                                                          |
@@ -24,38 +24,40 @@
  |  limitations under the License.                                                  |
  ------------------------------------------------------------------------------------
 
-  3 January 2016
+  24 September 2018
 
 */
 
-module.exports = function (controller, component) {
+module.exports = function (controller) {
 
-  component.onNewProps = function(newProps) {
+  var self = this;
+
+  this.onNewProps = function(newProps) {
     //console.log('BuildDetails newProps: ' + JSON.stringify(newProps));
   };
 
   controller.on('getBuildDetails', function(messageObj) {
     var data = messageObj.message;
-    component.nodejsBuild = data.nodejsBuild;
+    self.nodejsBuild = data.nodejsBuild;
     var dbArr = data.dbInterface.split(';');
-    component.dbInterface = dbArr[0];
-    component.db = dbArr[1];
-    component.qoper8Build = data.qoper8Build.no;
-    component.docStoreBuild = data.docStoreBuild.no;
-    component.qxBuild = data.qxBuild;
-    component.xpressBuild = data.xpressBuild.no;
-    component.setState({
+    self.dbInterface = dbArr[0];
+    self.db = dbArr[1];
+    self.qoper8Build = data.qoper8Build.no;
+    self.docStoreBuild = data.docStoreBuild.no;
+    self.qxBuild = data.qxBuild;
+    self.xpressBuild = data.xpressBuild.no;
+    self.setState({
       status: 'dataAvailable'
     });
   });
 
-  component.nodejsBuild = '';
-  component.dbInterface = '';
-  component.db = '';
-  component.qoper8Build = '';
-  component.docStoreBuild = '';
-  component.qxBuild = '';
-  component.appRunnerBuild = '';
+  this.nodejsBuild = '';
+  this.dbInterface = '';
+  this.db = '';
+  this.qoper8Build = '';
+  this.docStoreBuild = '';
+  this.qxBuild = '';
+  this.appRunnerBuild = '';
 
   controller.send({
     type: 'getBuildDetails'
