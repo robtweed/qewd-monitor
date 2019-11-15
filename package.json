@@ -1,6 +1,6 @@
 {
   "name": "qewd-monitor",
-  "version": "2.7.2",
+  "version": "2.7.4",
   "description": "React.js-based Monitor/Management Application for QEWD",
   "main": "index.js",
   "scripts": {
